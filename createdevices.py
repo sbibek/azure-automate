@@ -3,6 +3,7 @@ import subprocess
 import json
 
 iot_hub = 'dhub'
+connection_string_format = 'HostName=dhub.azure-devices.net;DeviceId={};SharedAccessKey={}'
 
 def exec(cmd):
     process = subprocess.Popen(cmd,stdout=subprocess.PIPE)
@@ -22,8 +23,9 @@ def createdevices(totalDevices, device_prefix):
         print('{} executing [{}]'.format(i+1, ' '.join(create_device_cmd)))
         response = exec(create_device_cmd)
         key = response['authentication']['symmetricKey']['primaryKey'] 
-        keys.append(key)
-        print('{} ...OK\n'.format(i+1))
+        conn_s = connection_string_format.format(response['deviceId'], key)
+        keys.append(conn_s)
+        print('{} {}\n'.format(i+1, conn_s))
 
     dumpkeys(keys)
 
