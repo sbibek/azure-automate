@@ -27,5 +27,5 @@ def createdevices(totalDevices, device_prefix):
 
     dumpkeys(keys)
 
-createdevices(5, 'd')
+createdevices(500, 'd')
 
